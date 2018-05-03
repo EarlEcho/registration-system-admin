@@ -60,9 +60,9 @@
                             message: '未知错误,请重试。',
                             type: 'warning'
                         });
-                        setTimeout(()=>{
+                        /*setTimeout(()=>{
                             window.location.reload(true);
-                        },1000)
+                        },1000)*/
                         if(response.message === 'forceRefresh') {
                             window.location.reload(true);
                         }
@@ -96,8 +96,9 @@
 </script>
 <style lang="less">
     .submit-btn {
-        button {
+        display: inline-block;
+        /*button {
             width: 100%;
-        }
+        }*/
     }
 </style>

@@ -2,30 +2,25 @@
     <div class="index-menu-w">
         <el-menu :router="true" class="el-menu-vertical-demo"
                  :collapse="isCollapse">
-            <el-menu-item index="/">
+            <el-menu-item index="/home">
                 <i class="el-icon-star-on"></i>
                 <span slot="title">首页</span>
             </el-menu-item>
-
-            <el-menu-item index="/my-exam">
+            <el-menu-item index="/exam-list">
                 <i class="el-icon-circle-check-outline"></i>
-                <span slot="title">我的报名</span>
+                <span slot="title">考试列表</span>
             </el-menu-item>
-            <el-menu-item index="/instruction">
-                <i class="el-icon-document"></i>
-                <span slot="title">考生须知</span>
-            </el-menu-item>
-            <el-menu-item index="/exam-search">
-                <i class="el-icon-zoom-in"></i>
-                <span slot="title">成绩查询</span>
-            </el-menu-item>
-            <el-menu-item index="/print-ticket">
+            <el-menu-item index="/examination">
                 <i class="el-icon-printer"></i>
-                <span slot="title">准考证打印</span>
+                <span slot="title">考生列表</span>
             </el-menu-item>
-            <el-menu-item index="/my">
-                <i class="el-icon-setting"></i>
-                <span slot="title">个人中心</span>
+            <el-menu-item index="/exam-add">
+                <i class="el-icon-document"></i>
+                <span slot="title">新增考试</span>
+            </el-menu-item>
+            <el-menu-item index="/examination-notice">
+                <i class="el-icon-zoom-in"></i>
+                <span slot="title">考生须知</span>
             </el-menu-item>
         </el-menu>
     </div>

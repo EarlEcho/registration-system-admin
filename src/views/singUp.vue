@@ -21,7 +21,7 @@
                     </el-form-item>
                     <br>
                     <el-form-item>
-                        <submit-btn submit-url="/regs/private/user/pub/login" submit-method="POST"
+                        <submit-btn submit-url="/private/user/pub/login" submit-method="POST"
                                     :before-submit="beforeSubmit"
                                     :submit-data="singUpForm"
                                     :submit-handler="submitSuccess"
@@ -38,6 +38,7 @@
 </template>
 
 <script>
+    import axios from '../../config/http'
     import SubmitBtn from '@/components/SubmitBtn'
 
     export default {
@@ -88,6 +89,8 @@
                     message: '登录成功，2秒后跳转到首页。',
                     type: 'success'
                 });
+                localStorage.setItem('sid', (res.data.data));
+                axios.defaults.headers.sid = (localStorage.sid);
                 setTimeout(() => {
                     this.$router.replace('/home')
                 }, 2000)
@@ -108,7 +111,6 @@
             position: absolute;
             width: 65%;
             height: 100%;
-            /*background: url("../assets/image/loginbg.png");*/
             background-color: #3a8ee6;
             background-size: 102%;
             background-repeat: no-repeat;
@@ -134,6 +136,12 @@
             }
             .el-form-item {
                 margin-bottom: 15px;
+            }
+            .submit-btn{
+                width: 100%;
+                button{
+                    width: 100%;
+                }
             }
         }
     }

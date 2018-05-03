@@ -52,7 +52,7 @@ let functions = {
 				return m < 10 ? "0" + m : m;
 			};
 
-			var time = new Date(value * 1000);
+			var time = new Date(value);
 			var y = time.getFullYear();
 			var m = time.getMonth() + 1;
 			var d = time.getDate();
@@ -71,7 +71,7 @@ let functions = {
 				return m < 10 ? "0" + m : m;
 			};
 
-			var time = new Date(value * 1000);
+			var time = new Date(value);
 			var y = time.getFullYear();
 			var m = time.getMonth() + 1;
 			var d = time.getDate();
@@ -81,6 +81,14 @@ let functions = {
 			return y + "-" + padding0(m) + "-" + padding0(d) + " " + padding0(h) + ":" + padding0(mm) + ":" + padding0(s);
 		}
 	},
+    foreach: function (arr, func) {
+        for (var i in arr) {
+            if (func(i, arr[i]) === false) {
+                return false;
+            }
+        }
+        return true;
+    },
 
 };
 

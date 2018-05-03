@@ -1,31 +1,28 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 
+
 //首页
 const Index = () => import('@/views/index')
-
 //登录
 const SingUp = () => import('@/views/singUp')
 
 //忘记密码
 const FindPwd = () => import('@/views/findPwd')
 
-//考试详情
-const ExamDetail = () => import('@/views/exam/detail')
-//考试报名
-const ExamEnroll = () => import('@/views/exam/enroll')
+//考试列表
+const ExamList = () => import('@/views/exam/list')
+
+//新增考试
+const AddExam = () => import('@/views/exam/add')
 
 
-//我的考试
-const MyExam = () => import('@/views/my/myExam')
+//考生列表
+const Examination = () => import('@/views/examination/list')
+
 //考生须知
-const Instruction = () => import('@/views/my/instruction')
-//成绩查询
-const ExamSearch = () => import('@/views/my/examSearch')
-//准考证打印
-const PrintTicket = () => import('@/views/my/printTicket')
-//个人中心
-const My = () => import('@/views/my/myInfos')
+const ExaminationNotice = () => import('@/views/examination/notice')
+
 
 Vue.use(Router)
 
@@ -44,40 +41,27 @@ const router = new Router({
             meta: {title: "忘记密码", auth: true},
             component: FindPwd
         }, {
-            path: '/exam-detail',
-            meta: {title: "考试详情", auth: true},
-            component: ExamDetail
+            path: '/exam-list',
+            meta: {title: "考试列表", auth: true},
+            component: ExamList
         }, {
-            path: '/exam-enroll',
-            meta: {title: "考试报名", auth: true},
-            component: ExamEnroll
+            path: '/exam-add',
+            meta: {title: "新增考试", auth: true},
+            component: AddExam
         }, {
-            path: '/my-exam',
-            meta: {title: "我的考试", auth: true},
-            component: MyExam
+            path: '/examination',
+            meta: {title: "考生列表", auth: true},
+            component: Examination
         }, {
-            path: '/instruction',
+            path: '/examination-notice',
             meta: {title: "考生须知", auth: true},
-            component: Instruction
-        }, {
-            path: '/exam-search',
-            meta: {title: "成绩查询", auth: true},
-            component: ExamSearch
-        }, {
-            path: '/print-ticket',
-            meta: {title: "准考证打印", auth: true},
-            component: PrintTicket
-        }, {
-            path: '/my',
-            meta: {title: "个人中心", auth: true},
-            component: My
+            component: ExaminationNotice
         }
     ]
 })
 
 
 router.beforeEach((to, from, next) => {
-
 
     if (to.meta.title) {//如果设置标题，拦截后设置标题
         document.title = to.meta.title
@@ -87,6 +71,13 @@ router.beforeEach((to, from, next) => {
     if (to.matched.length === 0) {//匹配不到相对应的路由时，跳转到首页
         from.name ? next({name: from.name}) : next('/')
     }
+   /* if (to.path != '/') {
+        if (!localStorage.sid) {
+            console.log('没有sid');
+            next('/');
+        }
+    }*/
+
 
     next()
 })
