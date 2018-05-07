@@ -6,7 +6,10 @@
             <bread text="考生列表"></bread>
             <el-form :inline="true" :model="searchForm" class="search-w">
                 <el-form-item>
-                    <el-input v-model="searchForm.name" placeholder="输入考生名称"></el-input>
+                    <el-input v-model="searchForm.name" placeholder="输入考生姓名"></el-input>
+                </el-form-item>
+                <el-form-item>
+                    <el-input v-model="searchForm.phoneNum" placeholder="输入考生联系方式"></el-input>
                 </el-form-item>
                 <el-form-item>
                     <el-button type="primary" @click="searchEvent">查询</el-button>
@@ -22,62 +25,28 @@
                     </template>
                 </el-table-column>
                 <el-table-column prop="realname" label="姓名"></el-table-column>
-                <el-table-column prop="phoneNum" label="联系方式"></el-table-column>
-                <el-table-column prop="examNum" label="考试数量"></el-table-column>
-                <el-table-column label="操作">
+                <el-table-column prop="username" label="用户名" show-overflow-tooltip>
+                </el-table-column>
+                <el-table-column prop="idcard" label="身份证号" show-overflow-tooltip>
+                </el-table-column>
+                <el-table-column prop="phoneNum" label="联系方式">
                     <template slot-scope="scope">
-                        <el-button @click.native.prevent="examinationDetail(scope.row)"
-                                   type="primary"
-                                   size="small">查看详情
-                        </el-button>
+                        {{!scope.row.phoneNum?'暂无':scope.row.phoneNum}}
                     </template>
                 </el-table-column>
+                <el-table-column prop="sex" label="性别">
+                </el-table-column>
+
             </el-table>
+
+            <div class="pagination-block-w">
+                <el-pagination layout="total,prev, pager, next" :total="pager.totalElements" :size="pager.size"
+                               @current-change="pageChange">
+                </el-pagination>
+            </div>
         </div>
 
-        <el-dialog title="考生详细信息" :visible.sync="showDetialDialog">
-            <div class="examination-detail">
-                <el-row>
-                    <el-col :span="8">
-                        <img :src="!detailForm.photoPath?defaultIcon:detailForm.photoPath" class="student-icon-big">
-                    </el-col>
-                    <el-col :span="16">
-                        <el-row :gutter="30">
-                            <el-col :span="7">用户名</el-col>
-                            <el-col :span="17">{{!detailForm.username?'暂无':detailForm.username}}</el-col>
-                        </el-row>
-                        <el-row :gutter="30">
-                            <el-col :span="7">姓名</el-col>
-                            <el-col :span="17">{{detailForm.realname}}</el-col>
-                        </el-row>
-                        <el-row :gutter="30">
-                            <el-col :span="7">身份证号</el-col>
-                            <el-col :span="17">{{detailForm.idcard}}</el-col>
-                        </el-row>
-                        <el-row :gutter="30">
-                            <el-col :span="7">联系方式</el-col>
-                            <el-col :span="17">{{!detailForm.phoneNum?'暂无':detailForm.phoneNum}}</el-col>
-                        </el-row>
-                        <el-row :gutter="30">
-                            <el-col :span="7">性别</el-col>
-                            <el-col :span="17">{{detailForm.sex}}</el-col>
-                        </el-row>
-                        <el-row :gutter="30">
-                            <el-col :span="7">考试信息</el-col>
-                            <el-col :span="17">
-                                <p v-for="item in detailForm.studentList">
-                                    {{item.name}}
-                                </p>
-                            </el-col>
-                        </el-row>
-                    </el-col>
-                </el-row>
-            </div>
 
-            <span slot="footer">
-                <el-button type="primary" @click="showDetialDialog = false">确 定</el-button>
-            </span>
-        </el-dialog>
     </div>
 </template>
 
@@ -93,9 +62,11 @@
         props: [],
         data() {
             return {
+                pager: {},
                 defaultIcon: 'static/image/defaulticon.png',
                 searchForm: {
                     name: '',
+                    phoneNum: ''
                 },
                 showDetialDialog: false,
                 detailForm: {},
@@ -111,16 +82,35 @@
                 //考生列表
                 functions.getAjax('/private/user/querySysUser?pageNum=0', (res) => {
                     this.examinationList = res.data.content;
-                    console.log(this.examinationList);
-
+                    this.pager = {
+                        size: res.data.size,
+                        totalElements: res.data.totalElements,
+                        numberOfElements: res.data.numberOfElements
+                    }
                 });
             },
-
-            searchEvent() {
-                functions.getAjax('/private/user/findAll' + '?pageNum=0&examName=' + this.searchForm.name, (res) => {
-                    console.log(res);
-                    this.studentList = res.data.content;
+            pageChange(page) {
+                let currentPage = parseInt(page - 1);
+                functions.getAjax('private/user/querySysUser' + '?pageNum=' + currentPage, (res) => {
+                    this.examinationList = res.data.content;
+                    this.pager = {
+                        size: res.data.size,
+                        totalElements: res.data.totalElements,
+                        numberOfElements: res.data.numberOfElements
+                    }
                 });
+            },
+            searchEvent() {
+
+                functions.getAjax('/private/user/querySysUser' + '?pageNum=0&realname=' + this.searchForm.name + '&phoneNum=' + this.searchForm.phoneNum, (res) => {
+                    this.examinationList = res.data.content;
+                    this.pager = {
+                        size: res.data.size,
+                        totalElements: res.data.totalElements,
+                        numberOfElements: res.data.numberOfElements
+                    }
+                });
+
             },
             resetForm(formName) {
                 this.$router.go(0);

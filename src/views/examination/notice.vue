@@ -5,13 +5,14 @@
         <div class="notice-w menu-content-w">
             <bread text="考生须知"></bread>
 
-            <el-input rows="15" v-model="noticeText" type="textarea"></el-input>
+            <el-input rows="15" v-model="notice.announceInfo" type="textarea"></el-input>
 
-            <submit-btn submit-url="/" submit-method="POST"
+
+            <submit-btn submit-url="/announce/saveOrUpdate" submit-method="POST"
                         :before-submit="beforeSubmit"
-                        :submit-data="noticeText"
+                        :submit-data="notice"
                         :submit-handler="submitSuccess"
-                        btn-text="完成"></submit-btn>
+                        btn-text="提交"></submit-btn>
             <el-button @click="noticeText=''">重置</el-button>
         </div>
     </div>
@@ -27,26 +28,58 @@
 
     export default {
         name: '',
-        components: {Bread,LeftMenu, MyHeader, SubmitBtn},
+        components: {Bread, LeftMenu, MyHeader, SubmitBtn},
         props: [],
         data() {
             return {
-                noticeText: ''
+                notice: {
+                    id: '',
+                    announceInfo: ''
+                }
 
             }
         },
         mounted() {
-
+            this.fetchData();
         },
         methods: {
             //获取数据
             fetchData() {
+                functions.getAjax('/announce/get', (res) => {
+                    if(res.code==500){
+                        return;
+                    }else{
+                        this.notice = {
+                            id: res.data.id,
+                            announceInfo: res.data.announceInfo
+                        };
+                    }
 
+                });
             },
             beforeSubmit() {
+                let _this = this;
+                if (!this.notice.announceInfo) {
+                    _this.$notify({
+                        title: '提示',
+                        message: '通知公告内容不可为空！',
+                        type: 'warning'
+                    });
+                    return false;
+                } else {
+                    return true;
+                }
 
             },
-            submitSuccess() {
+            submitSuccess(res) {
+                if (res.data.code == 200) {
+                    this.$notify({
+                        title: '提示',
+                        message: '编辑公告成功！',
+                        type: 'success'
+                    });
+
+                }
 
             }
         }
@@ -62,7 +95,7 @@
             display: inline-block;
             width: 80vw;
             vertical-align: top;
-            .el-textarea{
+            .el-textarea {
                 margin-bottom: 25px;
             }
         }

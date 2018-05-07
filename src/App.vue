@@ -54,4 +54,8 @@
         height: 90vh;
         box-sizing: border-box;
     }
+    .pagination-block-w{
+        text-align: center;
+        margin: 25px 0;
+    }
 </style>

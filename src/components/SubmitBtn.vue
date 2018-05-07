@@ -32,11 +32,11 @@
                         return
                     }
                 }
-                console.log(this.submitData);
                 this.loading = true;
                 this.buttonText = "正在" + this.buttonText;
                 this.disable = true;
                 if (this.submitMethod == 'GET') {
+
                     axios({
                         method: 'get',
                         url: this.submitUrl,
@@ -57,12 +57,12 @@
                         this.afterSubmit(response);
                     }).catch((response) => {
                         this.$message({
-                            message: '未知错误,请重试。',
+                            message: response.message,
                             type: 'warning'
                         });
-                        /*setTimeout(()=>{
+                       /* setTimeout(() => {
                             window.location.reload(true);
-                        },1000)*/
+                        }, 1500)*/
                         if(response.message === 'forceRefresh') {
                             window.location.reload(true);
                         }
@@ -79,7 +79,6 @@
                 var triggerCountFromServer = 0;
                 //处理返回结果
                 var result = response;
-                console.log(result);
                 if (result.status == 200){
                     this.submitHandler(result);
                 } else {

@@ -62,7 +62,7 @@ let functions = {
 		}
 	},
 
-	//时间戳转 xxxx-xx-xx xx:xx(秒)
+	//时间戳转 xxxx-xx-xx xx:xx:xx(秒)
 	timestampToLongText(value) {
 		if (value == "" || value == undefined) {
 			return;

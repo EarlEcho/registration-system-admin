@@ -17,21 +17,18 @@
         data() {
             return {
                 userInfos: {
-                    id: 1,
-                    username: 'Echo'
+                    username: ''
                 },
             }
         },
         mounted() {
             functions.getAjax('/private/user/getOne', (res) => {
-                console.log(res)
                 if (res.code !== 200) {
                     this.$notify({
                         title: '提示',
                         message: res.msg,
                         type: 'warning'
                     });
-
                     /* setTimeout(() => {
                          this.$router.replace('/')
                      }, 3000)*/

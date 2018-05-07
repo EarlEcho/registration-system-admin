@@ -9,7 +9,7 @@ if (localStorage.sid) {
 axios.defaults.timeout = 5000;
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8';
 axios.defaults.headers.common['Content-Type'] = 'application/json;charset=UTF-8';
-axios.defaults.baseURL = 'http://10.10.20.158:8085/regs/';
+axios.defaults.baseURL = 'http://47.104.150.0:8085/regs/';
 
 
 // POST传参序列化
@@ -24,7 +24,6 @@ axios.interceptors.request.use(function (config) {
     } else {
         config.headers['Content-Type'] = 'application/x-www-form-urlencoded'
     }
-
     return config;
 }, function (error) {
     console.log("错误的传参");

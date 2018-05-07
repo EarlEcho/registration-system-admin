@@ -7,8 +7,6 @@ const Index = () => import('@/views/index')
 //登录
 const SingUp = () => import('@/views/singUp')
 
-//忘记密码
-const FindPwd = () => import('@/views/findPwd')
 
 //考试列表
 const ExamList = () => import('@/views/exam/list')
@@ -19,6 +17,11 @@ const AddExam = () => import('@/views/exam/add')
 
 //考生列表
 const Examination = () => import('@/views/examination/list')
+
+
+//报名信息
+
+const Enroll = ()=>import('@/views/enroll/index')
 
 //考生须知
 const ExaminationNotice = () => import('@/views/examination/notice')
@@ -37,10 +40,6 @@ const router = new Router({
             meta: {title: "登录", auth: true},
             component: SingUp
         }, {
-            path: '/find-pwd',
-            meta: {title: "忘记密码", auth: true},
-            component: FindPwd
-        }, {
             path: '/exam-list',
             meta: {title: "考试列表", auth: true},
             component: ExamList
@@ -56,7 +55,13 @@ const router = new Router({
             path: '/examination-notice',
             meta: {title: "考生须知", auth: true},
             component: ExaminationNotice
+        }, {
+            path: '/enroll-info',
+            meta: {title: "报名信息", auth: true},
+            component: Enroll
         }
+
+
     ]
 })
 
@@ -71,12 +76,11 @@ router.beforeEach((to, from, next) => {
     if (to.matched.length === 0) {//匹配不到相对应的路由时，跳转到首页
         from.name ? next({name: from.name}) : next('/')
     }
-   /* if (to.path != '/') {
+    if (to.path != '/') {
         if (!localStorage.sid) {
-            console.log('没有sid');
             next('/');
         }
-    }*/
+    }
 
 
     next()

@@ -18,9 +18,13 @@
                 <i class="el-icon-document"></i>
                 <span slot="title">新增考试</span>
             </el-menu-item>
+            <el-menu-item index="/enroll-info">
+                <i class="el-icon-document"></i>
+                <span slot="title">报名信息</span>
+            </el-menu-item>
             <el-menu-item index="/examination-notice">
                 <i class="el-icon-zoom-in"></i>
-                <span slot="title">考生须知</span>
+                <span slot="title">通知公告</span>
             </el-menu-item>
         </el-menu>
     </div>

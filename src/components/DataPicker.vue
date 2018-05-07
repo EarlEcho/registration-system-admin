@@ -28,16 +28,13 @@
         },
         methods: {
             change(val) {
-
                 let dataArr = [];
 
                 functions.foreach(val, function (key, value) {
                     dataArr.push((Date.parse(value) - 8 * 60 * 60 * 1000))
                 });
-               this.$emit('update',  dataArr);
-                /*
-                this.$emit('update:date', okDate);
-                */
+
+                this.$emit('update', dataArr);
             }
         },
         mounted: function () {
@@ -46,7 +43,7 @@
                 timeArr[0] = new Date(parseInt(this.start));
                 timeArr[1] = new Date(parseInt(this.end));
                 this.innerData = timeArr;
-                console.log(timeArr);
+                this.change(timeArr);
             }
         }
     }

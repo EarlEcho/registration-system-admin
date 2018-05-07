@@ -30,7 +30,7 @@
                 <el-col :span="6">
                     <router-link to="/examination-notice">
                         <div>
-                            <p>考生须知</p>
+                            <p>通知公告</p>
                             <i class="el-icon-edit-outline"></i>
                         </div>
                     </router-link>

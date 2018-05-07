@@ -8,8 +8,8 @@
                 <h1 class="sing-title">登录</h1>
                 <el-form :model="singUpForm" :rules="rules" ref="singUpForm" class="demo-singUpForm">
                     <el-form-item prop="username">
-                        <p class="sing-form-item-title">邮箱</p>
-                        <el-input v-model="singUpForm.username" placeholder="请输入邮箱">
+                        <p class="sing-form-item-title">用户名</p>
+                        <el-input v-model="singUpForm.username" placeholder="请输入用户名">
                             <i slot="prefix" class="icon ion-android-person sing-icon"></i>
                         </el-input>
                     </el-form-item>
@@ -21,16 +21,14 @@
                     </el-form-item>
                     <br>
                     <el-form-item>
-                        <submit-btn submit-url="/private/user/pub/login" submit-method="POST"
+                        <submit-btn submit-url="/private/user/pub/manageLogin" submit-method="POST"
                                     :before-submit="beforeSubmit"
                                     :submit-data="singUpForm"
                                     :submit-handler="submitSuccess"
                                     btn-text="登录"></submit-btn>
                     </el-form-item>
                 </el-form>
-                <p class="sing-other-action">
-                    <router-link to="/find-pwd" class="g-rt">忘记密码？</router-link>
-                </p>
+
             </div>
         </div>
 
@@ -55,8 +53,8 @@
                 },
                 rules: {
                     username: [
-                        {required: true, message: '请输入邮箱地址', trigger: 'blur'},
-                        {type: 'email', message: '请输入正确的邮箱地址', trigger: 'blur'},
+                        {required: true, message: '请输入用户名', trigger: 'blur'},
+                        {min: 6,  message: '用户名长度至少为6个字符', trigger: 'blur'},
                     ],
                     password: [
                         {required: true, message: '请输入密码', trigger: 'blur'},
@@ -71,10 +69,8 @@
                 let flag = 0;
                 this.$refs.singUpForm.validate((valid) => {
                     if (valid) {
-                        console.log('成功');
                         flag = 1;
                     } else {
-                        console.log('error submit!!');
                         flag = 0;
                     }
                 });
@@ -84,16 +80,25 @@
             },
             //登录成功
             submitSuccess(res) {
-                this.$notify({
-                    title: '成功',
-                    message: '登录成功，2秒后跳转到首页。',
-                    type: 'success'
-                });
-                localStorage.setItem('sid', (res.data.data));
-                axios.defaults.headers.sid = (localStorage.sid);
-                setTimeout(() => {
-                    this.$router.replace('/home')
-                }, 2000)
+                if (res.data.code == 200) {
+                    this.$notify({
+                        title: '成功',
+                        message: '登录成功，2秒后跳转到首页。',
+                        type: 'success'
+                    });
+                    localStorage.setItem('sid', (res.data.data));
+                    axios.defaults.headers.sid = (localStorage.sid);
+                    setTimeout(() => {
+                        this.$router.replace('/home')
+                    }, 2000)
+                }else{
+                    this.$notify({
+                        title: '提示',
+                        message: res.data.msg,
+                        type: 'warning'
+                    });
+                }
+
             }
         }
     }
@@ -137,9 +142,9 @@
             .el-form-item {
                 margin-bottom: 15px;
             }
-            .submit-btn{
+            .submit-btn {
                 width: 100%;
-                button{
+                button {
                     width: 100%;
                 }
             }
